@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.phone_lab.jouler.joulerbase" >
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <permission android:name="org.phone_lab.jouler.joulerbase" android:label="Jouler Base" android:protectionLevel="dangerous"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.AppCompat.Light"
+        >
+
+        <receiver android:name=".receivers.StartupReceiver">
+            <intent-filter android:priority="1">
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".activities.MainActivity"
+            android:launchMode="singleTask"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="joulerbase.LUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activities.SettingActivity"
+            android:parentActivityName=".activities.MainActivity"
+            android:launchMode="singleTask"
+            android:label="@string/action_settings"
+            android:icon="@drawable/settings" />
+
+        <service
+            android:name=".services.JoulerBaseService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="@string/permission_name">
+            <intent-filter>
+                <action android:name="org.phone_lab.jouler.joulerbase.IJoulerBaseService" />
+            </intent-filter>
+        </service>
+    </application>
+</manifest>
