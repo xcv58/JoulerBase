@@ -1,7 +1,6 @@
 package org.phone_lab.jouler.joulerbase.activities;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,13 +20,11 @@ import java.util.List;
 public class ClientAdapter extends ArrayAdapter<Client> {
     private final Context context;
     private List<Client> list;
-    private PackageManager pm;
 
     public ClientAdapter(Context context, List<Client> clientList) {
         super(context, R.layout.client_item, clientList);
         this.context = context;
         this.list = clientList;
-        pm = context.getPackageManager();
     }
 
     @Override
@@ -44,16 +41,17 @@ public class ClientAdapter extends ArrayAdapter<Client> {
 
         // set one view
         Client client =  list.get(position);
-        textView_name.setText(client.getAppName(pm));
-        textView_label.setText(client.getDescription(pm));
+        textView_name.setText(client.getAppName());
+        textView_label.setText(client.getDescription());
+        if (client.isSelected()) {
+            textView_label.setVisibility(View.VISIBLE);
+        }
+        if (client.isChoosed()) {
+            checkBox.setChecked(true);
+        }
 
-        Drawable icon = client.getIcon(pm);
+        Drawable icon = client.getIcon();
         imageView.setImageDrawable((icon != null) ? icon : context.getResources().getDrawable( R.drawable.ic_launcher ));
-
-//        if (myPackageInfo.inList()) {
-//            rowView.setBackgroundColor(0xFFAA66CC);
-//            checkBox.setChecked(true);
-//        }
 
         return rowView;
     }

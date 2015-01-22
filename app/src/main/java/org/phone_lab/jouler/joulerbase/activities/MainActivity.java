@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import org.phone_lab.jouler.joulerbase.R;
+import org.phone_lab.jouler.joulerbase.Utils;
 import org.phone_lab.jouler.joulerbase.services.JoulerBaseService;
 
 import java.util.ArrayList;
@@ -27,8 +28,6 @@ import java.util.List;
 
 
 public class MainActivity extends Activity {
-    private static final String TAG = "JoulerBase";
-
     private boolean mBound = false;
     private JoulerBaseService mService;
 
@@ -67,16 +66,6 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (savedInstanceState == null) {
-//            getFragmentManager().beginTransaction()
-//                    .replace(R.id.client_list, new ClientListFragment())
-//                    .commit();
-//                    .add(R.id.container, new PlaceholderFragment())
-//                    .commit();
-//            getFragmentManager().beginTransaction()
-//                    .add(R.id.container, new ClientListFragment())
-//                    .commit();
-        }
         this.getClientApps();
 
         startByAnotherApp(getIntent());
@@ -154,22 +143,22 @@ public class MainActivity extends Activity {
 
     private void startByAnotherApp(Intent intent) {
         Bundle bundle = intent.getExtras();
-        Log.d(TAG, "startByAnotherAPP" + intent.toString());
+        Log.d(Utils.TAG, "startByAnotherAPP" + intent.toString());
         if (bundle == null) {
             return;
         }
         for (String key : bundle.keySet()) {
-            Log.d(TAG, "startByAnotherAPP " + key + " : " + bundle.get(key));
+            Log.d(Utils.TAG, "startByAnotherAPP " + key + " : " + bundle.get(key));
         }
     }
 
     public void click(View view) {
         if (mBound) {
-            Log.d(TAG, "Bounded");
+            Log.d(Utils.TAG, "Bounded");
             String packageName = mService.getChoosedPackageName();
-            Log.d(TAG, "PACKAGE NAME " + packageName);
+            Log.d(Utils.TAG, "PACKAGE NAME " + packageName);
         } else {
-            Log.d(TAG, "not Bound");
+            Log.d(Utils.TAG, "not Bound");
         }
     }
 
@@ -187,7 +176,7 @@ public class MainActivity extends Activity {
                 results.add(packageInfo);
             }
         }
-        Log.d(TAG, "Apps : " + results.toString());
+        Log.d(Utils.TAG, "Apps : " + results.toString());
         return results;
     }
 }

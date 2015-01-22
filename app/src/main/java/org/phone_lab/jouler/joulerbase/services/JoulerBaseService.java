@@ -19,6 +19,7 @@ import android.util.Log;
 import org.json.JSONObject;
 import org.phone_lab.jouler.joulerbase.IJoulerBaseService;
 import org.phone_lab.jouler.joulerbase.R;
+import org.phone_lab.jouler.joulerbase.activities.Client;
 
 import java.util.*;
 
@@ -29,6 +30,8 @@ public class JoulerBaseService extends Service {
     public static final String TAG = "JoulerBaseService";
     private JoulerFunction joulerFunction;
     private LocalBinder localBinder = new LocalBinder();
+    private Client selectedClient;
+    private Client choosedClient;
 
     IJoulerBaseService.Stub mBinder = new IJoulerBaseService.Stub() {
         @Override
@@ -175,5 +178,21 @@ public class JoulerBaseService extends Service {
     public boolean checkCallingChoosed(int uid) {
         initJoulerFunction();
         return joulerFunction.isChoosed(getBaseContext(), uid);
+    }
+
+    public void setChoosed(Client client) {
+        choosedClient = client;
+    }
+
+    public boolean isChoosed(Client client) {
+        return choosedClient == client;
+    }
+
+    public void setSelected(Client client) {
+        this.selectedClient = client;
+    }
+
+    public boolean isSelected(Client client) {
+        return this.selectedClient == client;
     }
 }

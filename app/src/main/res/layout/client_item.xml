@@ -18,19 +18,21 @@
         android:layout_toRightOf="@+id/logo"
         android:layout_toLeftOf="@+id/check"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:text="App Name"
-        android:textSize="64px" >
+        android:textSize="64px"
+        >
     </TextView>
+
     <TextView
         android:id="@+id/label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/logo"
-        android:layout_toLeftOf="@+id/check"
-        android:layout_below="@+id/name"
+        android:layout_below="@+id/logo"
         android:text="com.package.name"
-        android:textSize="32px" >
+        android:textSize="128px"
+        android:visibility="gone"
+        >
     </TextView>
     <CheckBox
         android:id="@+id/check"
@@ -40,6 +42,7 @@
         android:layout_marginRight="8px"
         android:layout_alignParentRight="true"
         android:focusable="false"
-        android:clickable="false" >
+        android:clickable="false"
+        >
     </CheckBox>
 </RelativeLayout>

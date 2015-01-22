@@ -2,16 +2,22 @@ package org.phone_lab.jouler.joulerbase.activities;
 
 import android.app.Fragment;
 import android.app.ListFragment;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import org.phone_lab.jouler.joulerbase.R;
+import org.phone_lab.jouler.joulerbase.services.JoulerBaseService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,19 +27,45 @@ import java.util.List;
  */
 public class ClientListFragment extends ListFragment {
     private ClientAdapter clientAdapter;
+    private List<Client> clientList;
+    private ListView listView;
+
+    private boolean mBound = false;
+    private JoulerBaseService mService;
+
+    private ServiceConnection mConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName className, IBinder service) {
+            JoulerBaseService.LocalBinder binder = (JoulerBaseService.LocalBinder) service;
+            mService = binder.getService();
+            mBound = true;
+            linkServiceToClient();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            mService = null;
+            mBound = false;
+        }
+    };
 
     public ClientListFragment() {
-        Log.d("SIZE", "123");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.client_list, container, false);
+        clientList = getClientApps();
 
-        clientAdapter = new ClientAdapter(getActivity(), getClientApps());
+        clientAdapter = new ClientAdapter(getActivity(), clientList);
         setListAdapter(clientAdapter);
-        clientAdapter.notifyDataSetChanged();
+
+        listView = (ListView) rootView.findViewWithTag(getString(R.string.list_view_tag));
+
+
+        Intent intent = new Intent(getActivity(), JoulerBaseService.class);
+        getActivity().bindService(intent, mConnection, getActivity().BIND_AUTO_CREATE);
         return rootView;
     }
 
@@ -43,15 +75,36 @@ public class ClientListFragment extends ListFragment {
         super.onPause();
     }
 
+    @Override
+    public void onListItemClick(android.widget.ListView l, android.view.View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        Client client = clientList.get(position);
+        if (client.isSelected()) {
+            mService.setChoosed(client);
+        } else {
+            mService.setSelected(client);
+        }
+        clientAdapter.notifyDataSetChanged();
+    }
+
     public List<Client> getClientApps() {
         List<Client> results = new ArrayList<Client>();
         PackageManager packageManager = getActivity().getPackageManager();
         for (PackageInfo packageInfo : packageManager.getInstalledPackages(0)) {
             if ((packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) { continue; }
             if (PackageManager.PERMISSION_GRANTED == packageManager.checkPermission(getResources().getString(R.string.permission_name), packageInfo.packageName)) {
-                results.add(new Client(packageInfo));
+                results.add(new Client(packageInfo, packageManager));
             }
         }
         return results;
+    }
+
+    private void linkServiceToClient() {
+        if (mBound) {
+            for (Client client: clientList) {
+                client.setService(mService);
+            }
+            clientAdapter.notifyDataSetChanged();
+        }
     }
 }
