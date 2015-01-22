@@ -28,38 +28,16 @@ import java.util.List;
 
 
 public class MainActivity extends Activity {
-    private boolean mBound = false;
-    private JoulerBaseService mService;
-
     private boolean doubleBackToExitPressedOnce = false;
-
-    private ServiceConnection mConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName className, IBinder service) {
-            JoulerBaseService.LocalBinder binder = (JoulerBaseService.LocalBinder) service;
-            mService = binder.getService();
-            mBound = true;
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName arg0) {
-            mService = null;
-            mBound = false;
-        }
-    };
 
     @Override
     protected void onPause() {
         super.onPause();
-        unbindService(mConnection);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Intent intent = new Intent(this, JoulerBaseService.class);
-        startService(intent);
-        bindService(intent, mConnection, this.BIND_AUTO_CREATE);
     }
 
     @Override
@@ -153,10 +131,8 @@ public class MainActivity extends Activity {
     }
 
     public void click(View view) {
-        if (mBound) {
+        if (true) {
             Log.d(Utils.TAG, "Bounded");
-            String packageName = mService.getChoosedPackageName();
-            Log.d(Utils.TAG, "PACKAGE NAME " + packageName);
         } else {
             Log.d(Utils.TAG, "not Bound");
         }

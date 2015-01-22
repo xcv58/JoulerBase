@@ -19,6 +19,7 @@ import android.util.Log;
 import org.json.JSONObject;
 import org.phone_lab.jouler.joulerbase.IJoulerBaseService;
 import org.phone_lab.jouler.joulerbase.R;
+import org.phone_lab.jouler.joulerbase.Utils;
 import org.phone_lab.jouler.joulerbase.activities.Client;
 
 import java.util.*;
@@ -185,7 +186,14 @@ public class JoulerBaseService extends Service {
     }
 
     public boolean isChoosed(Client client) {
-        return choosedClient == client;
+        if (choosedClient != null) {
+            return choosedClient == client;
+        }
+        if (this.getChoosedPackageName().equals(client.getPackageName())) {
+            this.choosedClient = client;
+            return true;
+        }
+        return false;
     }
 
     public void setSelected(Client client) {
@@ -194,5 +202,21 @@ public class JoulerBaseService extends Service {
 
     public boolean isSelected(Client client) {
         return this.selectedClient == client;
+    }
+
+    public void flush() {
+        Log.d(Utils.TAG, "Flush start");
+        if (choosedClient == null) {
+            return;
+        }
+        if (choosedClient.getPackageName().equals(this.getChoosedPackageName())) {
+            return;
+        }
+        Log.d(Utils.TAG, "Flush actually run");
+        // put old app sleep
+        // wake up new app
+        this.setChoosedPackageName(choosedClient.getPackageName());
+        this.setChoosedUid(choosedClient.getUid());
+        return;
     }
 }

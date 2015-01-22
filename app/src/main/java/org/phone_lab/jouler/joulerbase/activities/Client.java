@@ -57,7 +57,15 @@ public class Client {
         return mService.isChoosed(this);
     }
 
-    public void setService(JoulerBaseService service) {
+    public String getPackageName() {
+        return packageInfo.packageName;
+    }
+
+    public int getUid() {
+        return packageInfo.applicationInfo.uid;
+    }
+
+    public void setmService(JoulerBaseService service) {
         this.mService = service;
     }
 }
