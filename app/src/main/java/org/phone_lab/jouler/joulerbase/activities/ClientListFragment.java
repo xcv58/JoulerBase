@@ -42,6 +42,7 @@ public class ClientListFragment extends ListFragment {
             JoulerBaseService.LocalBinder binder = (JoulerBaseService.LocalBinder) service;
             mService = binder.getService();
             mBound = true;
+            mService.reset();
 
             linkService(clientList);
         }

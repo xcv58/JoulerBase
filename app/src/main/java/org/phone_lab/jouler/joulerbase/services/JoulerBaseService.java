@@ -21,6 +21,7 @@ import org.phone_lab.jouler.joulerbase.IJoulerBaseService;
 import org.phone_lab.jouler.joulerbase.R;
 import org.phone_lab.jouler.joulerbase.Utils;
 import org.phone_lab.jouler.joulerbase.activities.Client;
+import org.phone_lab.jouler.joulerbase.receivers.StartupReceiver;
 
 import java.util.*;
 
@@ -108,20 +109,30 @@ public class JoulerBaseService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.d("JOULERINTENT", "onCreate");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Bundle bundle = intent.getExtras();
+        if (bundle != null) {
+            if (StartupReceiver.BOOT.equals(bundle.get(StartupReceiver.START_MODE))) {
+                Log.d(Utils.TAG, "Start by boot completed");
+                // wakeup selected app.
+            }
+        }
         return START_REDELIVER_INTENT;
     }
 
     @Override
     public IBinder onBind(Intent intent) {
         Log.d(TAG, "onBind() executed.");
-        if (intent != null && intent.getAction() != null) {
-            if (intent.getAction().equals(IJoulerBaseService.class.getName())) {
-                Log.d(TAG, "Bind via AIDL.");
-                return mBinder;
+        if (intent != null ) {
+            if (intent.getAction() != null) {
+                if (intent.getAction().equals(IJoulerBaseService.class.getName())) {
+                    Log.d(TAG, "Bind via AIDL.");
+                    return mBinder;
+                }
             }
         }
         Log.d(TAG, "Bind from inner process.");
@@ -189,10 +200,12 @@ public class JoulerBaseService extends Service {
         if (choosedClient != null) {
             return choosedClient == client;
         }
+
         if (this.getChoosedPackageName().equals(client.getPackageName())) {
             this.choosedClient = client;
             return true;
         }
+
         return false;
     }
 
@@ -204,12 +217,19 @@ public class JoulerBaseService extends Service {
         return this.selectedClient == client;
     }
 
+    public void reset() {
+        this.choosedClient = null;
+        this.selectedClient = null;
+    }
+
     public void flush() {
         Log.d(Utils.TAG, "Flush start");
         if (choosedClient == null) {
+            Log.d(Utils.TAG, "Flush end by null choosedClient");
             return;
         }
         if (choosedClient.getPackageName().equals(this.getChoosedPackageName())) {
+            Log.d(Utils.TAG, "Flush end by same package");
             return;
         }
         Log.d(Utils.TAG, "Flush actually run");
