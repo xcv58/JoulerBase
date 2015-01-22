@@ -1,9 +1,7 @@
 package org.phone_lab.jouler.joulerbase.activities;
 
 import android.app.Activity;
-import android.app.ActionBar;
 import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -13,23 +11,18 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.RemoteException;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
 import android.widget.Toast;
 
-import org.phone_lab.jouler.joulerbase.IJoulerBaseService;
 import org.phone_lab.jouler.joulerbase.R;
 import org.phone_lab.jouler.joulerbase.services.JoulerBaseService;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -74,7 +67,16 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        if (savedInstanceState == null) {
+//            getFragmentManager().beginTransaction()
+//                    .replace(R.id.client_list, new ClientListFragment())
+//                    .commit();
+//                    .add(R.id.container, new PlaceholderFragment())
+//                    .commit();
+//            getFragmentManager().beginTransaction()
+//                    .add(R.id.container, new ClientListFragment())
+//                    .commit();
+        }
         this.getClientApps();
 
         startByAnotherApp(getIntent());
@@ -115,7 +117,7 @@ public class MainActivity extends Activity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            View rootView = inflater.inflate(R.layout.description_main, container, false);
             return rootView;
         }
 
