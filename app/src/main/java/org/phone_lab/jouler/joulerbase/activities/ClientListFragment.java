@@ -27,12 +27,12 @@ import java.util.List;
  * Created by xcv58 on 1/21/15.
  */
 public class ClientListFragment extends ListFragment {
-    private ClientAdapter clientAdapter;
+    protected ClientAdapter clientAdapter;
     private List<Client> clientList;
     private ListView listView;
 
     private boolean mBound = false;
-    private JoulerBaseService mService;
+    protected JoulerBaseService mService;
 
     private ServiceConnection mConnection = new ServiceConnection() {
         @Override
@@ -44,7 +44,8 @@ public class ClientListFragment extends ListFragment {
             mBound = true;
             mService.reset();
 
-            linkService(clientList);
+//            linkService(clientList);
+            clientAdapter.notifyDataSetChanged();
         }
 
         @Override
@@ -95,11 +96,12 @@ public class ClientListFragment extends ListFragment {
     public void onListItemClick(android.widget.ListView l, android.view.View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         Client client = clientList.get(position);
-        if (client.isSelected()) {
-            mService.setChoosed(client);
-        } else {
-            mService.setSelected(client);
-        }
+        mService.setSelected(client);
+//        if (client.isSelected()) {
+//            mService.setChoosed(client);
+//        } else {
+//            mService.setSelected(client);
+//        }
         clientAdapter.notifyDataSetChanged();
     }
 
@@ -111,16 +113,16 @@ public class ClientListFragment extends ListFragment {
                 continue;
             }
             if (PackageManager.PERMISSION_GRANTED == packageManager.checkPermission(getResources().getString(R.string.permission_name), packageInfo.packageName)) {
-                result.add(new Client(packageInfo, packageManager));
+                result.add(new Client(packageInfo, packageManager, this));
             }
         }
         return result;
     }
 
-    private void linkService(List<Client> list) {
-        for (Client client : list) {
-            client.setmService(mService);
-        }
-        clientAdapter.notifyDataSetChanged();
-    }
+//    private void linkService(List<Client> list) {
+//        for (Client client : list) {
+//            client.setmService(mService);
+//        }
+//        clientAdapter.notifyDataSetChanged();
+//    }
 }

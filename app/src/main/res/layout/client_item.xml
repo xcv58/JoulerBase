@@ -13,14 +13,29 @@
         android:src="@drawable/ic_launcher" >
     </ImageView>
 
+    <RadioButton
+        android:id="@+id/check"
+        android:layout_width="128px"
+        android:layout_height="128px"
+        android:layout_marginLeft="8px"
+        android:layout_marginRight="8px"
+        android:layout_alignTop="@id/logo"
+        android:layout_alignBottom="@id/logo"
+        android:layout_alignParentEnd="true"
+        android:focusable="false"
+        android:clickable="true" />
+
     <TextView
         android:id="@+id/name"
-        android:layout_toRightOf="@+id/logo"
-        android:layout_toLeftOf="@+id/check"
-        android:layout_width="wrap_content"
+        android:layout_toRightOf="@id/logo"
+        android:layout_toLeftOf="@id/check"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignTop="@id/logo"
+        android:layout_alignBottom="@id/logo"
+        android:gravity="center_vertical"
         android:text="App Name"
-        android:textSize="64px"
+        android:textSize="96px"
         >
     </TextView>
 
@@ -30,19 +45,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/logo"
         android:text="com.package.name"
-        android:textSize="128px"
+        android:textSize="64px"
         android:visibility="gone"
         >
     </TextView>
-    <CheckBox
-        android:id="@+id/check"
-        android:layout_width="128px"
-        android:layout_height="128px"
-        android:layout_marginLeft="8px"
-        android:layout_marginRight="8px"
-        android:layout_alignParentRight="true"
-        android:focusable="false"
-        android:clickable="false"
-        >
-    </CheckBox>
 </RelativeLayout>

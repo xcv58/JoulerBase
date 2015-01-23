@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import org.phone_lab.jouler.joulerbase.R;
@@ -37,7 +38,7 @@ public class ClientAdapter extends ArrayAdapter<Client> {
         TextView textView_label = (TextView) rowView.findViewById(R.id.label);
         TextView textView_name = (TextView) rowView.findViewById(R.id.name);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.logo);
-        CheckBox checkBox = (CheckBox) rowView.findViewById(R.id.check);
+        RadioButton radioButton = (RadioButton) rowView.findViewById(R.id.check);
 
         // set one view
         Client client =  list.get(position);
@@ -47,8 +48,9 @@ public class ClientAdapter extends ArrayAdapter<Client> {
             textView_label.setVisibility(View.VISIBLE);
         }
         if (client.isChoosed()) {
-            checkBox.setChecked(true);
+            radioButton.setChecked(true);
         }
+        radioButton.setOnClickListener(client.clientClickListener);
 
         Drawable icon = client.getIcon();
         imageView.setImageDrawable((icon != null) ? icon : context.getResources().getDrawable( R.drawable.ic_launcher ));

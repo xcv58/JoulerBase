@@ -1,9 +1,11 @@
 package org.phone_lab.jouler.joulerbase.activities;
 
+import android.app.FragmentBreadCrumbs;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+import android.view.View;
 
 import org.phone_lab.jouler.joulerbase.Utils;
 import org.phone_lab.jouler.joulerbase.services.JoulerBaseService;
@@ -16,10 +18,19 @@ public class Client {
     private String appName;
     private String description;
     private Drawable icon;
-    private JoulerBaseService mService;
+    private ClientListFragment clientListFragment;
     private final static String NO_DESCRIPTION = "no description";
+    ClientClickListener clientClickListener;
 
-    public Client(PackageInfo packageInfo, PackageManager packageManager) {
+    public class ClientClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            clientListFragment.mService.setChoosed(Client.this);
+            clientListFragment.clientAdapter.notifyDataSetChanged();
+        }
+    }
+
+    public Client(PackageInfo packageInfo, PackageManager packageManager, ClientListFragment clientListFragment) {
         this.packageInfo = packageInfo;
         appName = packageInfo.applicationInfo.loadLabel(packageManager).toString();
 
@@ -27,6 +38,10 @@ public class Client {
         description = charSequence == null ? NO_DESCRIPTION : charSequence.toString();
 
         icon = packageInfo.applicationInfo.loadIcon(packageManager);
+
+        clientClickListener = new ClientClickListener();
+
+        this.clientListFragment = clientListFragment;
     }
 
     public String getAppName() {
@@ -42,19 +57,19 @@ public class Client {
     }
 
     public boolean isSelected() {
-        if (mService == null) {
+        if (clientListFragment.mService == null) {
             Log.d(Utils.TAG, "No Service set in Client");
             return false;
         }
-        return mService.isSelected(this);
+        return clientListFragment.mService.isSelected(this);
     }
 
     public boolean isChoosed() {
-        if (mService == null) {
+        if (clientListFragment.mService == null) {
             Log.d(Utils.TAG, "No Service set in Client");
             return false;
         }
-        return mService.isChoosed(this);
+        return clientListFragment.mService.isChoosed(this);
     }
 
     public String getPackageName() {
@@ -63,9 +78,5 @@ public class Client {
 
     public int getUid() {
         return packageInfo.applicationInfo.uid;
-    }
-
-    public void setmService(JoulerBaseService service) {
-        this.mService = service;
     }
 }
