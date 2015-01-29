@@ -122,8 +122,12 @@ public class JoulerFunction {
         return joulerPolicy.getAllCpuFrequencies();
     }
 
-    public void rateLimitForUid(int uid) {
-        joulerPolicy.rateLimitForUid(uid);
+    public void addRateLimitRule(int uid) {
+        joulerPolicy.addRateLimitRule(uid);
+    }
+
+    public void delRateLimitRule(int uid) {
+        joulerPolicy.delRateLimitRule(uid);
     }
 
     public int getPriority(int uid) {

@@ -55,7 +55,6 @@ public class JoulerBaseService extends Service {
             if (!checkCallingChoosed(getCallingUid())) {
                 return "";
             }
-            getCallingUid();
             return joulerFunction.getStatistics();
         }
 
@@ -76,11 +75,19 @@ public class JoulerBaseService extends Service {
         }
 
         @Override
-        public void rateLimitForUid(int uid) {
+        public void addRateLimitRule(int uid) {
             if (!checkCallingChoosed(getCallingUid())) {
                 return;
             }
-            joulerFunction.rateLimitForUid(uid);
+            joulerFunction.addRateLimitRule(uid);
+        }
+
+        @Override
+        public void delRateLimitRule(int uid) {
+            if (!checkCallingChoosed(getCallingUid())) {
+                return;
+            }
+            joulerFunction.delRateLimitRule(uid);
         }
 
         @Override

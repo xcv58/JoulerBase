@@ -9,7 +9,8 @@ interface IJoulerBaseService {
     String getStatistics();
     void controlCpuMaxFrequency(int freq);
     int[] getAllCpuFrequencies();
-    void rateLimitForUid(int uid);
     int getPriority(int uid);
     void resetPriority(int uid, int priority);
+    void addRateLimitRule(int uid);
+    void delRateLimitRule(int uid);
 }

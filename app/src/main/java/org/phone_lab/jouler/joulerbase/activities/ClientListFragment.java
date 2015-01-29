@@ -65,6 +65,8 @@ public class ClientListFragment extends ListFragment {
         View rootView = inflater.inflate(R.layout.client_list, container, false);
         clientList = getClientApps();
 
+        Log.d(Utils.TAG, "Clients: " + clientList.size());
+
         clientAdapter = new ClientAdapter(getActivity(), clientList);
         setListAdapter(clientAdapter);
 
@@ -112,6 +114,7 @@ public class ClientListFragment extends ListFragment {
             if ((packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
                 continue;
             }
+            Log.d(Utils.TAG, "PackageName: " + packageInfo.packageName);
             if (PackageManager.PERMISSION_GRANTED == packageManager.checkPermission(getResources().getString(R.string.permission_name), packageInfo.packageName)) {
                 result.add(new Client(packageInfo, packageManager, this));
             }
