@@ -10,6 +10,7 @@ import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.phone_lab.jouler.joulerbase.Utils;
 
 import java.net.ContentHandler;
 
@@ -94,19 +95,24 @@ public class JoulerFunction {
     private JSONObject getJSON(JoulerStats.UidStats u) {
         JSONObject json = new JSONObject();
         try {
-            json.put("packagename", u.packageName);
+            json.put("packageName", u.packageName);
+            json.put("uiActivity", u.uiActivity);
+            json.put("Uid", u.getUid());
             json.put("FgEnergy", u.getFgEnergy());
             json.put("BgEnergy", u.getBgEnergy());
-            json.put("CPU", u.getCpuEnergy());
-            json.put("Wakelock", u.getWakelockEnergy());
-            json.put("Wifi", u.getWifiEnergy());
-            json.put("Mobile Data", u.getMobileDataEnergy());
-            json.put("Wifi Data", u.getWifiDataEnergy());
-            json.put("Video", u.getVideoEnergy());
-            json.put("Video", u.getVideoEnergy());
-            json.put("Frames", u.getFrame());
-            json.put("Launches", u.getCount());
-            json.put("Usage time", u.getUsageTime());
+            json.put("CpuEnergy", u.getCpuEnergy());
+            json.put("WakelockEnergy", u.getWakelockEnergy());
+            json.put("WifiEnergy", u.getWifiEnergy());
+            json.put("SensorEnergy", u.getSensorEnergy());
+            json.put("MobileDataEnergy", u.getMobileDataEnergy());
+            json.put("WifiDataEnergy", u.getWifiDataEnergy());
+            json.put("VideoEnergy", u.getVideoEnergy());
+            json.put("AudioEnergy", u.getAudioEnergy());
+            json.put("Frame", u.getFrame());
+            json.put("State", u.getState());
+            json.put("Throttle", u.getThrottle());
+            json.put("Count", u.getCount());
+            json.put("UsageTime", u.getUsageTime());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -123,10 +129,12 @@ public class JoulerFunction {
     }
 
     public void addRateLimitRule(int uid) {
+        Log.d(Utils.TAG, "run addRateLimitRule");
         joulerPolicy.addRateLimitRule(uid);
     }
 
     public void delRateLimitRule(int uid) {
+        Log.d(Utils.TAG, "run delRateLimitRule");
         joulerPolicy.delRateLimitRule(uid);
     }
 
