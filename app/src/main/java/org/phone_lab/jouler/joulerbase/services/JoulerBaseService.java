@@ -235,10 +235,6 @@ public class JoulerBaseService extends Service {
             Log.d(Utils.TAG, "Flush end by null choosedClient");
             return;
         }
-        if (choosedClient.getPackageName().equals(this.getChoosedPackageName())) {
-            Log.d(Utils.TAG, "Flush end by same package");
-            return;
-        }
         Log.d(Utils.TAG, "Flush actually run");
         // put old app sleep
         // wake up new app
