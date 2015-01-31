@@ -52,7 +52,6 @@ public class ClientListFragment extends ListFragment {
         public void onServiceDisconnected(ComponentName arg0) {
             Log.d(Utils.TAG, "unbind service from fragment");
             mService = null;
-            mBound = false;
         }
     };
 
@@ -72,14 +71,18 @@ public class ClientListFragment extends ListFragment {
 
         listView = (ListView) rootView.findViewWithTag(getString(R.string.list_view_tag));
 
+        mBound = false;
+
         return rootView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Intent intent = new Intent(getActivity(), JoulerBaseService.class);
-        getActivity().bindService(intent, mConnection, getActivity().BIND_AUTO_CREATE);
+        if (!mBound) {
+            Intent intent = new Intent(getActivity(), JoulerBaseService.class);
+            getActivity().bindService(intent, mConnection, getActivity().BIND_AUTO_CREATE);
+        }
     }
 
     @Override
@@ -90,6 +93,7 @@ public class ClientListFragment extends ListFragment {
             Log.d(Utils.TAG, "mBound is true");
             mService.flush();
             getActivity().unbindService(mConnection);
+            mBound = false;
         }
         super.onPause();
     }
