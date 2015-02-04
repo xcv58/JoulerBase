@@ -250,6 +250,21 @@ public class JoulerBaseService extends Service {
         return;
     }
 
+    public void enterSelected() {
+        this.flush();
+        this.openApp(getChoosedPackageName());
+    }
+
+    private void openApp(String packageName) {
+        if (packageName == null || packageName.isEmpty() || packageName.equals("")) {
+            Log.d(Utils.TAG, "Open App cancel because packageName is invalid");
+            return;
+        }
+
+        Intent LaunchIntent = getPackageManager().getLaunchIntentForPackage(packageName);
+        startActivity(LaunchIntent);
+    }
+
     private void sleep(String packageName) {
         if (packageName == null || packageName.isEmpty() || packageName.equals("")) {
             Log.d(Utils.TAG, "Sleep cancel because packageName is invalid");

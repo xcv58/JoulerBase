@@ -9,5 +9,12 @@
 
     <string name="start_suffix">.START</string>
     <string name="stop_suffix">.STOP</string>
+    <string name="open_suffix">.OPEN</string>
 
+    <string name="enter_selected">
+        Open selected App
+    </string>
+    <string name="save_exit">
+        Save and Exit
+    </string>
 </resources>

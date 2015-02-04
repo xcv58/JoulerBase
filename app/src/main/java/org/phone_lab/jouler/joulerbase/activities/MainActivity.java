@@ -2,15 +2,12 @@ package org.phone_lab.jouler.joulerbase.activities;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,7 +18,6 @@ import android.widget.Toast;
 
 import org.phone_lab.jouler.joulerbase.R;
 import org.phone_lab.jouler.joulerbase.Utils;
-import org.phone_lab.jouler.joulerbase.services.JoulerBaseService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +80,7 @@ public class MainActivity extends Activity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.description_main, container, false);
+            View rootView = inflater.inflate(R.layout.buttons_main, container, false);
             return rootView;
         }
 
@@ -131,10 +127,22 @@ public class MainActivity extends Activity {
     }
 
     public void click(View view) {
-        if (true) {
-            Log.d(Utils.TAG, "Bounded");
-        } else {
-            Log.d(Utils.TAG, "not Bound");
+        int id = view.getId();
+        switch (id) {
+            case R.id.save_exit:
+                finish();
+                break;
+            case R.id.enter_selected:
+                ClientListFragment clientListFragment = (ClientListFragment) getFragmentManager().findFragmentById(R.id.client_list);
+                if (clientListFragment.mBound) {
+                    clientListFragment.mService.enterSelected();
+                } else {
+                    Log.d(Utils.TAG, "Open failed, because service not bounded!");
+                }
+                finish();
+                break;
+            default:
+                break;
         }
     }
 

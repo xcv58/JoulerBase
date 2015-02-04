@@ -31,7 +31,7 @@ public class ClientListFragment extends ListFragment {
     private List<Client> clientList;
     private ListView listView;
 
-    private boolean mBound = false;
+    protected boolean mBound = false;
     protected JoulerBaseService mService;
 
     private ServiceConnection mConnection = new ServiceConnection() {
