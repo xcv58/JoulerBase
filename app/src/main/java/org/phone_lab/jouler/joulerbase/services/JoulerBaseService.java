@@ -105,6 +105,22 @@ public class JoulerBaseService extends Service {
             }
             joulerFunction.resetPriority(uid, priority);
         }
+
+        @Override
+        public void lowBrightness() {
+            if (!checkCallingChoosed(getCallingUid())) {
+                return;
+            }
+            joulerFunction.lowBrightness();
+        }
+
+        @Override
+        public void resetBrightness() {
+            if (!checkCallingChoosed(getCallingUid())) {
+                return;
+            }
+            joulerFunction.restBrightness();
+        }
     };
 
     public class LocalBinder extends Binder {

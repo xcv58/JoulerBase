@@ -13,4 +13,6 @@ interface IJoulerBaseService {
     void resetPriority(int uid, int priority);
     void addRateLimitRule(int uid);
     void delRateLimitRule(int uid);
+    void lowBrightness();
+    void resetBrightness();
 }

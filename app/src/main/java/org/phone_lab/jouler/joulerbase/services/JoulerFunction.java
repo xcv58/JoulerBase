@@ -6,6 +6,7 @@ import android.os.JoulerPolicy;
 import android.os.JoulerStats;
 import android.os.Parcel;
 import android.os.RemoteException;
+import android.provider.Settings;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -21,9 +22,16 @@ public class JoulerFunction {
     private JoulerPolicy joulerPolicy;
     private static final String PACKAGE_NAME = "PACKAGE_NAME";
     private static final String UID = "UID";
+    private static final String PREVIOUS_BRIGHTNESS = "PREVIOUS_BRIGHTNESS ";
+    private static final String PREVIOUS_BRIGHTNESS_MODE = "PREVIOUS_BRIGHTNESS_MODE ";
     private static final String PREFERENCE = "Jouler_Base_Preference";
 
+    private Context context;
+    private static int previousBrightness;
+    private static int previousBrightnessMode;
+
     public JoulerFunction(Context context) {
+        this.context = context;
         if (joulerPolicy == null) {
             try {
                 joulerPolicy = (JoulerPolicy) context.getSystemService(context.JOULER_SERVICE);
@@ -144,5 +152,52 @@ public class JoulerFunction {
 
     public void resetPriority(int uid, int priority) {
         joulerPolicy.resetPriority(uid, priority);
+    }
+
+    private void setPreviousBrightness(int previousBrightness, int previousBrightnessMode) {
+        SharedPreferences.Editor editor = context.getSharedPreferences(PREFERENCE, 0).edit();
+        editor.putInt(PREVIOUS_BRIGHTNESS, previousBrightness);
+        editor.putInt(PREVIOUS_BRIGHTNESS_MODE, previousBrightnessMode);
+        editor.commit();
+    }
+
+    private void getPreviousBrightness() {
+        SharedPreferences settings = context.getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE);
+        previousBrightness = settings.getInt(PREVIOUS_BRIGHTNESS, previousBrightness);
+        previousBrightnessMode = settings.getInt(PREVIOUS_BRIGHTNESS_MODE, previousBrightnessMode);
+    }
+
+    public void lowBrightness() {
+        try {
+            previousBrightness = android.provider.Settings.System.getInt(
+                    context.getContentResolver(), android.provider.Settings.System.SCREEN_BRIGHTNESS);
+            previousBrightnessMode = android.provider.Settings.System.getInt(
+                    context.getContentResolver(), android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE);
+            Log.d(Utils.TAG, "Previous brightness is: " + previousBrightness + ". Mode is: " + previousBrightnessMode);
+            setPreviousBrightness(previousBrightness, previousBrightnessMode);
+        } catch (Settings.SettingNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        android.provider.Settings.System.putInt(context.getContentResolver(),
+                android.provider.Settings.System.SCREEN_BRIGHTNESS,
+                getLowBrightness());
+        android.provider.Settings.System.putInt(context.getContentResolver(),
+                Settings.System.SCREEN_BRIGHTNESS_MODE,
+                Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
+    }
+
+    public void restBrightness() {
+        getPreviousBrightness();
+        android.provider.Settings.System.putInt(context.getContentResolver(),
+                android.provider.Settings.System.SCREEN_BRIGHTNESS,
+                previousBrightness);
+        android.provider.Settings.System.putInt(context.getContentResolver(),
+                Settings.System.SCREEN_BRIGHTNESS_MODE,
+                previousBrightnessMode);
+    }
+
+    public int getLowBrightness() {
+        return previousBrightness / Math.max((int)Math.log(previousBrightness) - 2, 1);
     }
 }
