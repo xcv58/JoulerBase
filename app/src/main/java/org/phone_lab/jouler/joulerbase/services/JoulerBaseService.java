@@ -126,6 +126,7 @@ public class JoulerBaseService extends Service {
             if (StartupReceiver.BOOT.equals(bundle.get(StartupReceiver.START_MODE))) {
                 Log.d(Utils.TAG, "Start by boot completed");
                 // wakeup selected app.
+                wakeUp(getChoosedPackageName());
             }
         }
         return START_REDELIVER_INTENT;
@@ -236,10 +237,38 @@ public class JoulerBaseService extends Service {
             return;
         }
         Log.d(Utils.TAG, "Flush actually run");
-        // put old app sleep
-        // wake up new app
-        this.setChoosedPackageName(choosedClient.getPackageName());
+        String originalPackageName = getChoosedPackageName();
+        String newPackageName = choosedClient.getPackageName();
+        if (!originalPackageName.equals(newPackageName)) {
+            // put old app sleep
+            sleep(originalPackageName);
+            // wake up new app
+            wakeUp(newPackageName);
+            this.setChoosedPackageName(choosedClient.getPackageName());
+        }
         this.setChoosedUid(choosedClient.getUid());
         return;
+    }
+
+    private void sleep(String packageName) {
+        if (packageName == null || packageName.isEmpty() || packageName.equals("")) {
+            Log.d(Utils.TAG, "Sleep cancel because packageName is invalid");
+            return;
+        }
+        String action = packageName + getString(R.string.stop_suffix);
+        Log.d(Utils.TAG, "Sleep " + action);
+        Intent wakeUpIntent = new Intent(action);
+        sendBroadcast(wakeUpIntent);
+    }
+
+    private void wakeUp(String packageName) {
+        if (packageName == null || packageName.isEmpty() || packageName.equals("")) {
+            Log.d(Utils.TAG, "Wake up cancel because packageName is invalid");
+            return;
+        }
+        String action = packageName + getString(R.string.start_suffix);
+        Log.d(Utils.TAG, "Wake up " + action);
+        Intent wakeUpIntent = new Intent(action);
+        sendBroadcast(wakeUpIntent);
     }
 }
