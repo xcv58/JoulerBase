@@ -50,6 +50,9 @@ public class ClientAdapter extends ArrayAdapter<Client> {
         if (client.isChoosed()) {
             radioButton.setChecked(true);
         }
+        if (client.isHighlight()) {
+            rowView.setBackgroundColor(0xFFAA66CC);
+        }
         radioButton.setOnClickListener(client.clientClickListener);
 
         Drawable icon = client.getIcon();

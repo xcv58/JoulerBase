@@ -25,6 +25,7 @@ import java.util.List;
 
 public class MainActivity extends Activity {
     private boolean doubleBackToExitPressedOnce = false;
+    protected static String highlightPackageName;
 
     @Override
     protected void onPause() {
@@ -41,7 +42,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.getClientApps();
-
+        highlightPackageName = null;
         startByAnotherApp(getIntent());
     }
 
@@ -121,8 +122,10 @@ public class MainActivity extends Activity {
         if (bundle == null) {
             return;
         }
-        for (String key : bundle.keySet()) {
-            Log.d(Utils.TAG, "startByAnotherAPP " + key + " : " + bundle.get(key));
+        String key = getString(R.string.start_by);
+        if (bundle.containsKey(key)) {
+            highlightPackageName = bundle.getString(key);
+            Log.d(Utils.TAG, "startByAnotherAPP " + key + " : " + highlightPackageName);
         }
     }
 

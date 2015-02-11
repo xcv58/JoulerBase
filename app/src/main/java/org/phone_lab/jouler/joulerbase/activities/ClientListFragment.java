@@ -43,6 +43,8 @@ public class ClientListFragment extends ListFragment {
             mService = binder.getService();
             mBound = true;
             mService.reset();
+            MainActivity mainActivity = (MainActivity) getActivity();
+            mService.setHighlightPackageName(mainActivity.highlightPackageName);
 
 //            linkService(clientList);
             clientAdapter.notifyDataSetChanged();

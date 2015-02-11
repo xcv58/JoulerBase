@@ -34,6 +34,7 @@ public class JoulerBaseService extends Service {
     private LocalBinder localBinder = new LocalBinder();
     private Client selectedClient;
     private Client choosedClient;
+    private String highlightPackageName;
 
     IJoulerBaseService.Stub mBinder = new IJoulerBaseService.Stub() {
         @Override
@@ -231,6 +232,14 @@ public class JoulerBaseService extends Service {
         }
 
         return false;
+    }
+
+    public boolean isHighlight(Client client) {
+        return client.getPackageName().equals(highlightPackageName);
+    }
+
+    public void setHighlightPackageName(String packageName) {
+        highlightPackageName = packageName;
     }
 
     public void setSelected(Client client) {

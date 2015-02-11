@@ -64,6 +64,14 @@ public class Client {
         return clientListFragment.mService.isSelected(this);
     }
 
+    public boolean isHighlight() {
+        if (clientListFragment.mService == null) {
+            Log.d(Utils.TAG, "No Service set in Client");
+            return false;
+        }
+        return clientListFragment.mService.isHighlight(this);
+    }
+
     public boolean isChoosed() {
         if (clientListFragment.mService == null) {
             Log.d(Utils.TAG, "No Service set in Client");
