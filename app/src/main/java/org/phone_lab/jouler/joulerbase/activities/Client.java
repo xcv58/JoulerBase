@@ -21,6 +21,7 @@ public class Client {
     private ClientListFragment clientListFragment;
     private final static String NONE = "None";
     private final static String NO_DESCRIPTION = "no description";
+    private final static String NONE_CHOICE_DESCRIPTION = "No energy policy will enable.";
     ClientClickListener clientClickListener;
 
     public class ClientClickListener implements View.OnClickListener {
@@ -36,7 +37,7 @@ public class Client {
         this.packageInfo = null;
         appName = NONE;
 
-        description = NO_DESCRIPTION;
+        description = NONE_CHOICE_DESCRIPTION;
 
         icon = null;
 
