@@ -15,6 +15,7 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 import org.phone_lab.jouler.joulerbase.IJoulerBaseService;
@@ -283,6 +284,12 @@ public class JoulerBaseService extends Service {
     private void openApp(String packageName) {
         if (packageName == null || packageName.isEmpty() || packageName.equals("")) {
             Log.d(Utils.TAG, "Open App cancel because packageName is invalid");
+            return;
+        }
+
+        if (packageName.equals(Client.NONE)) {
+            Log.d(Utils.TAG, "Enter None option.");
+            Toast.makeText(this, Client.NONE + " option!", Toast.LENGTH_SHORT).show();
             return;
         }
 

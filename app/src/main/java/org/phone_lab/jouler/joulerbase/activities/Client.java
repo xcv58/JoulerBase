@@ -19,7 +19,7 @@ public class Client {
     private String description;
     private Drawable icon;
     private ClientListFragment clientListFragment;
-    private final static String NONE = "None";
+    public final static String NONE = "None";
     private final static String NO_DESCRIPTION = "no description";
     private final static String NONE_CHOICE_DESCRIPTION = "No energy policy will enable.";
     ClientClickListener clientClickListener;
