@@ -115,6 +115,7 @@ public class ClientListFragment extends ListFragment {
 
     public List<Client> getClientApps() {
         List<Client> result = new ArrayList<Client>();
+        result.add(new Client(this));
         PackageManager packageManager = getActivity().getPackageManager();
         for (PackageInfo packageInfo : packageManager.getInstalledPackages(0)) {
             if ((packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {

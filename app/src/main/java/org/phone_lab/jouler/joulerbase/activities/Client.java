@@ -19,6 +19,7 @@ public class Client {
     private String description;
     private Drawable icon;
     private ClientListFragment clientListFragment;
+    private final static String NONE = "None";
     private final static String NO_DESCRIPTION = "no description";
     ClientClickListener clientClickListener;
 
@@ -28,6 +29,20 @@ public class Client {
             clientListFragment.mService.setChoosed(Client.this);
             clientListFragment.clientAdapter.notifyDataSetChanged();
         }
+    }
+
+    // construction for None choice
+    public Client(ClientListFragment clientListFragment) {
+        this.packageInfo = null;
+        appName = NONE;
+
+        description = NO_DESCRIPTION;
+
+        icon = null;
+
+        clientClickListener = new ClientClickListener();
+
+        this.clientListFragment = clientListFragment;
     }
 
     public Client(PackageInfo packageInfo, PackageManager packageManager, ClientListFragment clientListFragment) {
@@ -81,10 +96,12 @@ public class Client {
     }
 
     public String getPackageName() {
+        if (packageInfo == null) { return NONE; }
         return packageInfo.packageName;
     }
 
     public int getUid() {
+        if (packageInfo == null) { return -1; }
         return packageInfo.applicationInfo.uid;
     }
 }
