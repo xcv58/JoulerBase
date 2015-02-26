@@ -138,12 +138,20 @@ public class JoulerFunction {
 
     public void addRateLimitRule(int uid) {
         Log.d(Utils.TAG, "run addRateLimitRule");
-        joulerPolicy.addRateLimitRule(uid);
+        try {
+            joulerPolicy.addRateLimitRule(uid);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        }
     }
 
     public void delRateLimitRule(int uid) {
-        Log.d(Utils.TAG, "run delRateLimitRule");
-        joulerPolicy.delRateLimitRule(uid);
+        try {
+            Log.d(Utils.TAG, "run delRateLimitRule");
+            joulerPolicy.delRateLimitRule(uid);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        }
     }
 
     public int getPriority(int uid) {
