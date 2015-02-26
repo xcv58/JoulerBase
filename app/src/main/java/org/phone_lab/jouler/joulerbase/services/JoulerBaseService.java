@@ -57,8 +57,7 @@ public class JoulerBaseService extends Service {
             if (!checkCallingChoosed(getCallingUid())) {
                 return "";
             }
-//            return joulerFunction.getStatistics();
-            return (new JSONObject()).toString();
+            return joulerFunction.getStatistics();
         }
 
         @Override
@@ -75,8 +74,7 @@ public class JoulerBaseService extends Service {
             if (!checkCallingChoosed(getCallingUid())) {
                 return null;
             }
-//            return joulerFunction.getAllCpuFrequencies();
-            return null;
+            return joulerFunction.getAllCpuFrequencies();
         }
 
         @Override
@@ -102,8 +100,7 @@ public class JoulerBaseService extends Service {
             if (!checkCallingChoosed(getCallingUid())) {
                 return -1;
             }
-//            return joulerFunction.getPriority(uid);
-            return -1;
+            return joulerFunction.getPriority(uid);
         }
 
         @Override
