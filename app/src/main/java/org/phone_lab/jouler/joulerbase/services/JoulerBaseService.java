@@ -57,7 +57,8 @@ public class JoulerBaseService extends Service {
             if (!checkCallingChoosed(getCallingUid())) {
                 return "";
             }
-            return joulerFunction.getStatistics();
+//            return joulerFunction.getStatistics();
+            return (new JSONObject()).toString();
         }
 
         @Override
@@ -65,7 +66,8 @@ public class JoulerBaseService extends Service {
             if (!checkCallingChoosed(getCallingUid())) {
                 return;
             }
-            joulerFunction.controlCpuMaxFrequency(freq);
+//            joulerFunction.controlCpuMaxFrequency(freq);
+            return;
         }
 
         @Override
@@ -73,7 +75,8 @@ public class JoulerBaseService extends Service {
             if (!checkCallingChoosed(getCallingUid())) {
                 return null;
             }
-            return joulerFunction.getAllCpuFrequencies();
+//            return joulerFunction.getAllCpuFrequencies();
+            return null;
         }
 
         @Override
@@ -81,7 +84,8 @@ public class JoulerBaseService extends Service {
             if (!checkCallingChoosed(getCallingUid())) {
                 return;
             }
-            joulerFunction.addRateLimitRule(uid);
+//            joulerFunction.addRateLimitRule(uid);
+            return;
         }
 
         @Override
@@ -89,7 +93,8 @@ public class JoulerBaseService extends Service {
             if (!checkCallingChoosed(getCallingUid())) {
                 return;
             }
-            joulerFunction.delRateLimitRule(uid);
+//            joulerFunction.delRateLimitRule(uid);
+            return;
         }
 
         @Override
@@ -97,7 +102,8 @@ public class JoulerBaseService extends Service {
             if (!checkCallingChoosed(getCallingUid())) {
                 return -1;
             }
-            return joulerFunction.getPriority(uid);
+//            return joulerFunction.getPriority(uid);
+            return -1;
         }
 
         @Override
@@ -105,7 +111,8 @@ public class JoulerBaseService extends Service {
             if (!checkCallingChoosed(getCallingUid())) {
                 return;
             }
-            joulerFunction.resetPriority(uid, priority);
+//            joulerFunction.resetPriority(uid, priority);
+            return;
         }
 
         @Override
@@ -113,7 +120,8 @@ public class JoulerBaseService extends Service {
             if (!checkCallingChoosed(getCallingUid())) {
                 return;
             }
-            joulerFunction.lowBrightness();
+//            joulerFunction.lowBrightness();
+            return;
         }
 
         @Override
@@ -121,7 +129,8 @@ public class JoulerBaseService extends Service {
             if (!checkCallingChoosed(getCallingUid())) {
                 return;
             }
-            joulerFunction.restBrightness();
+//            joulerFunction.restBrightness();
+            return;
         }
     };
 
