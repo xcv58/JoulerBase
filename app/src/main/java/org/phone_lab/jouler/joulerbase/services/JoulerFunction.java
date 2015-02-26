@@ -85,6 +85,19 @@ public class JoulerFunction {
             parcel.setDataPosition(0); // this is extremely important!
             JoulerStats joulerStats = new JoulerStats(parcel);
 
+            json.put("BluetoothEnergy", joulerStats.mSystemStats.getBluetoothEnergy());
+            json.put("CurrentBgDischargeRate", joulerStats.mSystemStats.getCurrentBgDischargeRate());
+            json.put("CurrentDischargeRate", joulerStats.mSystemStats.getCurrentDischargeRate());
+            json.put("CurrentFgDischargeRate", joulerStats.mSystemStats.getCurrentFgDischargeRate());
+            json.put("IdleEnergy", joulerStats.mSystemStats.getIdleEnergy());
+            json.put("PhoneEnergy", joulerStats.mSystemStats.getPhoneEnergy());
+            json.put("RadioEnergy", joulerStats.mSystemStats.getRadioEnergy());
+            json.put("ScreenEnergy", joulerStats.mSystemStats.getScreenEnergy());
+            json.put("TotalScreenOffTime", joulerStats.mSystemStats.getTotalScreenOffTime());
+            json.put("TotalScreenOnTime", joulerStats.mSystemStats.getTotalScreenOnTime());
+            json.put("Uptime", joulerStats.mSystemStats.getUptime());
+            json.put("WifiEnergy", joulerStats.mSystemStats.getWifiEnergy());
+
             for (int i = 0; i < joulerStats.mUidArray.size(); i++) {
                 JoulerStats.UidStats u = joulerStats.mUidArray.valueAt(i);
                 if (u.packageName == null) {
