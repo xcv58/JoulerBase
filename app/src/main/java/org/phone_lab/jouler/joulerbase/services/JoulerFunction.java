@@ -98,13 +98,17 @@ public class JoulerFunction {
             json.put("Uptime", joulerStats.mSystemStats.getUptime());
             json.put("WifiEnergy", joulerStats.mSystemStats.getWifiEnergy());
 
+            JSONObject packageDetails = new JSONObject();
+
             for (int i = 0; i < joulerStats.mUidArray.size(); i++) {
                 JoulerStats.UidStats u = joulerStats.mUidArray.valueAt(i);
                 if (u.packageName == null) {
                     continue;
                 }
-                json.put(u.packageName, getJSON(u));
+                packageDetails.put(u.packageName, getJSON(u));
             }
+
+            json.put("packageDetails", packageDetails);
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (JSONException e) {
